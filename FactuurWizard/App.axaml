@@ -1,0 +1,74 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="FactuurWizard.App"
+             RequestedThemeVariant="Default">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Styles>
+        <FluentTheme />
+
+        <Style Selector="TextBlock.FieldLabel">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="TextBox.FieldBox">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Width" Value="140" />
+        </Style>
+
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}" />
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="{DynamicResource TextboxBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource OutlineBackground}" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Cursor" Value="Ibeam" />
+        </Style>
+
+        <Style Selector="TextBox /template/ Border#PART_BorderElement">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="BorderBrush" Duration="0:0:0.1" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource TextboxBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource OutlineBackground}" />
+        </Style>
+
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource TextboxBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
+        </Style>
+
+        <Style Selector="TextBox:pressed /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource TextboxBackground}" />
+        </Style>
+    </Application.Styles>
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <FontFamily x:Key="AtlassianSans">avares://FactuurWizard/Assets/Fonts#Atlassian Sans</FontFamily>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="WindowBackground" Color="#ffffff" />
+                    <SolidColorBrush x:Key="SecondaryBackground" Color="#f1f2f4" />
+                    <SolidColorBrush x:Key="OutlineBackground" Color="#DDDEE0" />
+                    <SolidColorBrush x:Key="TertiaryBackground" Color="#e2e5e8" />
+                    <SolidColorBrush x:Key="PanelHoverBackground" Color="#F6F6F6" />
+                    <SolidColorBrush x:Key="ButtonHoverBackground" Color="#EEEEEF" />
+                    <SolidColorBrush x:Key="TextboxBackground" Color="#F8F9FA" />
+                    <SolidColorBrush x:Key="AccentColor" Color="#276DCE" />
+                    <SolidColorBrush x:Key="PrimaryText" Color="#292a2e" />
+                    <SolidColorBrush x:Key="SecondaryText" Color="#505257" />
+                    <SolidColorBrush x:Key="TextHover" Color="#292a2e" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

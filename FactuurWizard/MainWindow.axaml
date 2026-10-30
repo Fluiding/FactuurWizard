@@ -1,0 +1,31 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:factuurWizard="clr-namespace:FactuurWizard"
+        mc:Ignorable="d" d:DesignWidth="665" d:DesignHeight="800"
+        Background="{DynamicResource WindowBackground}"
+        x:Class="FactuurWizard.MainWindow"
+        Icon="/Assets/logo.ico"
+        Title="Personal Tasks"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        Width="665" Height="800"
+        RequestedThemeVariant="Light"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="{StaticResource AtlassianSans}">
+    <Grid ColumnDefinitions="*, *" RowDefinitions="Auto,Auto" Margin="15 40 15 15" ColumnSpacing="10">
+        <Border Grid.Row="0" Grid.Column="0" BorderBrush="{DynamicResource OutlineBackground}" BorderThickness="1"
+                CornerRadius="8" Padding="16 14" VerticalAlignment="Stretch">
+            <StackPanel Spacing="12">
+                <factuurWizard:FormField Label="Naam" />
+                <factuurWizard:FormField Label="Adres 1" />
+                <factuurWizard:FormField Label="Adres 2" />
+                <factuurWizard:FormField Label="Land" />
+                <factuurWizard:FormField Label="BTW Nummer" />
+                <factuurWizard:FormField Label="ID Nummer" />
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Window>

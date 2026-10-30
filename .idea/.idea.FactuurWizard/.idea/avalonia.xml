@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="FactuurWizard/App.axaml" value="FactuurWizard/FactuurWizard.csproj" />
+        <entry key="FactuurWizard/Field.axaml" value="FactuurWizard/FactuurWizard.csproj" />
+        <entry key="FactuurWizard/FieldControl.axaml" value="FactuurWizard/FactuurWizard.csproj" />
+        <entry key="FactuurWizard/FormField.axaml" value="FactuurWizard/FactuurWizard.csproj" />
+        <entry key="FactuurWizard/MainWindow.axaml" value="FactuurWizard/FactuurWizard.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
