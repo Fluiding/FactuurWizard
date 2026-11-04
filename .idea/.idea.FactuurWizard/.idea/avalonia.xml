@@ -7,6 +7,9 @@
         <entry key="FactuurWizard/Field.axaml" value="FactuurWizard/FactuurWizard.csproj" />
         <entry key="FactuurWizard/FieldControl.axaml" value="FactuurWizard/FactuurWizard.csproj" />
         <entry key="FactuurWizard/FormField.axaml" value="FactuurWizard/FactuurWizard.csproj" />
+        <entry key="FactuurWizard/InvoiceField.axaml" value="FactuurWizard/FactuurWizard.csproj" />
+        <entry key="FactuurWizard/InvoiceItem.axaml" value="FactuurWizard/FactuurWizard.csproj" />
+        <entry key="FactuurWizard/InvoiceItemControl.axaml" value="FactuurWizard/FactuurWizard.csproj" />
         <entry key="FactuurWizard/MainWindow.axaml" value="FactuurWizard/FactuurWizard.csproj" />
       </map>
     </option>

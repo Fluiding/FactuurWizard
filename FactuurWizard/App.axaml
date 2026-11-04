@@ -20,15 +20,48 @@
             <Setter Property="Foreground" Value="{DynamicResource PrimaryText}" />
         </Style>
 
-        <Style Selector="TextBox">
+        <Style Selector="Button.Button">
+            <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource OutlineBackground}" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Height" Value="34" />
+        </Style>
+
+        <Style Selector="Button.Button /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.2" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource OutlineBackground}" />
+        </Style>
+
+        <Style Selector="Button.Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource OutlineBackground}" />
+        </Style>
+
+        <Style Selector="TextBox.TextBox">
             <Setter Property="Background" Value="{DynamicResource TextboxBackground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource OutlineBackground}" />
             <Setter Property="FontWeight" Value="Medium" />
             <Setter Property="FontSize" Value="13" />
+            <Setter Property="CornerRadius" Value="4" />
             <Setter Property="Cursor" Value="Ibeam" />
         </Style>
 
-        <Style Selector="TextBox /template/ Border#PART_BorderElement">
+        <Style Selector="Button TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style Selector="TextBox.TextBox /template/ Border#PART_BorderElement">
             <Setter Property="Transitions">
                 <Transitions>
                     <BrushTransition Property="BorderBrush" Duration="0:0:0.1" />
@@ -36,18 +69,22 @@
             </Setter>
         </Style>
 
-        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+        <Style Selector="TextBox.TextBox:pointerover /template/ Border#PART_BorderElement">
             <Setter Property="Background" Value="{DynamicResource TextboxBackground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource OutlineBackground}" />
         </Style>
 
-        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+        <Style Selector="TextBox.TextBox:focus /template/ Border#PART_BorderElement">
             <Setter Property="Background" Value="{DynamicResource TextboxBackground}" />
             <Setter Property="BorderBrush" Value="{DynamicResource AccentColor}" />
         </Style>
 
-        <Style Selector="TextBox:pressed /template/ Border#PART_BorderElement">
+        <Style Selector="TextBox.TextBox:pressed /template/ Border#PART_BorderElement">
             <Setter Property="Background" Value="{DynamicResource TextboxBackground}" />
+        </Style>
+
+        <Style Selector="TextBox.TextBox.Invalid /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{DynamicResource ErrorColor}" />
         </Style>
     </Application.Styles>
 
@@ -60,10 +97,10 @@
                     <SolidColorBrush x:Key="SecondaryBackground" Color="#f1f2f4" />
                     <SolidColorBrush x:Key="OutlineBackground" Color="#DDDEE0" />
                     <SolidColorBrush x:Key="TertiaryBackground" Color="#e2e5e8" />
-                    <SolidColorBrush x:Key="PanelHoverBackground" Color="#F6F6F6" />
-                    <SolidColorBrush x:Key="ButtonHoverBackground" Color="#EEEEEF" />
-                    <SolidColorBrush x:Key="TextboxBackground" Color="#F8F9FA" />
-                    <SolidColorBrush x:Key="AccentColor" Color="#276DCE" />
+                    <SolidColorBrush x:Key="HoverBackground" Color="#F9F9F9" />
+                    <SolidColorBrush x:Key="TextboxBackground" Color="#F9FAFA" />
+                    <SolidColorBrush x:Key="AccentColor" Color="#51B7EB" />
+                    <SolidColorBrush x:Key="ErrorColor" Color="#FF6666" />
                     <SolidColorBrush x:Key="PrimaryText" Color="#292a2e" />
                     <SolidColorBrush x:Key="SecondaryText" Color="#505257" />
                     <SolidColorBrush x:Key="TextHover" Color="#292a2e" />

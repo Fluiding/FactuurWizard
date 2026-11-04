@@ -3,11 +3,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="FactuurWizard.FormField" x:Name="Root">
+             x:Class="FactuurWizard.InvoiceField" x:Name="Root">
     <Grid ColumnDefinitions="Auto,*">
         <TextBlock Text="{Binding Label, ElementName=Root}"
                    VerticalAlignment="Center" />
-        <TextBox Text="{Binding Value, ElementName=Root, Mode=TwoWay}"
-                 Grid.Column="1" Width="140" HorizontalAlignment="Right" />
+        <TextBox Name="ValueTextBox" Classes="TextBox" Text="{Binding Value, ElementName=Root, Mode=TwoWay}"
+                 Grid.Column="1" Width="140" HorizontalAlignment="Right" TextChanged="OnValueChanged" />
     </Grid>
 </UserControl>
