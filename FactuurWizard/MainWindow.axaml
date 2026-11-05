@@ -10,8 +10,8 @@
         Title="Factuur Wizard"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaTitleBarHeightHint="-1"
-        Width="665" Height="800"
-        MinWidth="665" MinHeight="800"
+        Width="665" Height="755"
+        MinWidth="665" MinHeight="755"
         RequestedThemeVariant="Light"
         WindowStartupLocation="CenterScreen"
         FontFamily="{StaticResource AtlassianSans}">
@@ -110,10 +110,6 @@
                     <TextBlock Text="Factuur Opslaan" />
                 </Button>
             </Grid>
-
-            <Button Classes="Button" HorizontalAlignment="Stretch">
-                <TextBlock Text="Factuur Afdrukken" />
-            </Button>
         </StackPanel>
     </Grid>
 </Window>

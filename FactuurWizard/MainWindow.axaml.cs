@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -7,17 +8,17 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using GemBox.Pdf;
 using GemBox.Spreadsheet;
+using PdfDocument = GemBox.Pdf.PdfDocument;
 
 namespace FactuurWizard;
 
 public partial class MainWindow : Window
 {
-	// TODO: make a good installer
-
 	public MainWindow()
 	{
 		InitializeComponent();
 	}
+
 
 	private void OnNewItemClick(object? sender, RoutedEventArgs e)
 	{
@@ -91,7 +92,7 @@ public partial class MainWindow : Window
 
 		sheet.PrintOptions.HorizontalCentered = true;
 		sheet.NamedRanges.SetPrintArea(sheet.Cells.GetSubrange("A1:G38"));
-		workbook.Save("Assets/Invoice.pdf");
+		workbook.Save("Assets/TempInvoice.pdf");
 
 		var invoiceData = AppState.InvoiceFields.ToDictionary(
 			field => field.Key, object? (field) => field.Value.Value
@@ -108,7 +109,7 @@ public partial class MainWindow : Window
 		var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(invoiceData);
 
 		ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-		using var pdf = PdfDocument.Load("Assets/Invoice.pdf");
+		using var pdf = PdfDocument.Load("Assets/TempInvoice.pdf");
 		var fileSpec = pdf.EmbeddedFiles.AddEmpty("data.json").Value;
 
 		var embeddedFile = fileSpec.EmbeddedFile!;
@@ -119,6 +120,19 @@ public partial class MainWindow : Window
 			stream.Write(jsonBytes, 0, jsonBytes.Length);
 		}
 
-		pdf.Save(Path.Combine(SaveLocationTextBox.Text ?? "", "Invoice.pdf"));
+		var pdfPath = Path.Combine(
+			SaveLocationTextBox.Text ?? "",
+			AppState.InvoiceFields["Naam"].Value + ".pdf"
+		);
+
+		pdf.Save(pdfPath);
+		pdf.Close();
+		File.Delete("Assets/TempInvoice.pdf");
+
+		Process.Start(new ProcessStartInfo
+		{
+			FileName = pdfPath,
+			UseShellExecute = true
+		});
 	}
 }
