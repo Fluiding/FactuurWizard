@@ -10,8 +10,8 @@
         Title="Factuur Wizard"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaTitleBarHeightHint="-1"
-        Width="665" Height="875"
-        MinWidth="665" MinHeight="875"
+        Width="665" Height="800"
+        MinWidth="665" MinHeight="800"
         RequestedThemeVariant="Light"
         WindowStartupLocation="CenterScreen"
         FontFamily="{StaticResource AtlassianSans}">
@@ -82,7 +82,7 @@
                         </Button>
                     </Grid>
                 </Border>
-                <ScrollViewer Grid.Row="1" Padding="16 0" VerticalScrollBarVisibility="Auto"
+                <ScrollViewer Grid.Row="1" Padding="16 0 16 16" VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <StackPanel Name="ItemContainer" Spacing="12" />
                 </ScrollViewer>

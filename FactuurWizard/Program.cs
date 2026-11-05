@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Velopack;
 
 namespace FactuurWizard;
 
@@ -11,6 +12,8 @@ internal class Program
 	[STAThread]
 	public static void Main(string[] args)
 	{
+		VelopackApp.Build().Run();
+
 		BuildAvaloniaApp()
 			.StartWithClassicDesktopLifetime(args);
 	}
@@ -22,6 +25,5 @@ internal class Program
 #if DEBUG
 			.WithDeveloperTools()
 #endif
-			.WithInterFont()
 			.LogToTrace();
 }

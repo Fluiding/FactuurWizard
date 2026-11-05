@@ -12,7 +12,6 @@ namespace FactuurWizard;
 
 public partial class MainWindow : Window
 {
-	// TODO: make textboxes smaller and set them closer to eachother to fit more in less space
 	// TODO: make a good installer
 
 	public MainWindow()
@@ -23,17 +22,8 @@ public partial class MainWindow : Window
 	private void OnNewItemClick(object? sender, RoutedEventArgs e)
 	{
 		var itemCount = ItemContainer.Children.Count;
-		switch (itemCount)
-		{
-			case >= 8:
-				return;
-			case 7:
-				AddItemButton.IsEnabled = false;
-				break;
-			case 0:
-				RemoveItemButton.IsEnabled = true;
-				break;
-		}
+		if (itemCount == 8)
+			return;
 
 		var item = new InvoiceItem();
 		ItemContainer.Children.Add(item);
@@ -42,17 +32,8 @@ public partial class MainWindow : Window
 	private void OnRemoveItemClick(object? sender, RoutedEventArgs e)
 	{
 		var itemCount = ItemContainer.Children.Count;
-		switch (itemCount)
-		{
-			case 0:
-				return;
-			case 1:
-				RemoveItemButton.IsEnabled = false;
-				break;
-			case 8:
-				AddItemButton.IsEnabled = true;
-				break;
-		}
+		if (itemCount == 0)
+			return;
 
 		ItemContainer.Children.RemoveAt(itemCount - 1);
 		AppState.InvoiceItems.RemoveAt(itemCount - 1);
