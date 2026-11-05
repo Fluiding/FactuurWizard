@@ -29,8 +29,14 @@ public partial class InvoiceField : UserControl
 	public InvoiceField()
 	{
 		InitializeComponent();
+	}
+
+	protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+	{
+		base.OnAttachedToVisualTree(e);
+
 		if (!Independant)
-			AppState.InvoiceFields.Add(this);
+			AppState.InvoiceFields.Add(Label, this);
 	}
 
 	private void OnValueChanged(object? sender, TextChangedEventArgs e)

@@ -91,7 +91,7 @@
 
         <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Spacing="12">
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                <TextBox Classes="TextBox" Grid.Column="0"
+                <TextBox Classes="TextBox" Name="SaveLocationTextBox" Grid.Column="0"
                          IsReadOnly="True" Text="C:\Users\f\Documents" />
                 <Button Classes="Button" Grid.Column="1">
                     <PathIcon Width="20" Height="20" Foreground="{DynamicResource PrimaryText}"
@@ -106,7 +106,7 @@
                 <Button Classes="Button" Grid.Column="1" HorizontalAlignment="Stretch" Click="OnOpenInvoiceClick">
                     <TextBlock Text="Open Factuur" />
                 </Button>
-                <Button Classes="Button" Grid.Column="2" HorizontalAlignment="Stretch">
+                <Button Classes="Button" Grid.Column="2" HorizontalAlignment="Stretch" Click="OnSaveInvoiceClick">
                     <TextBlock Text="Factuur Opslaan" />
                 </Button>
             </Grid>
