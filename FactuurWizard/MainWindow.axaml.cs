@@ -119,10 +119,10 @@ public partial class MainWindow : Window
 			else
 				AppState.InvoiceFields[field.Name].Value = field.Value.ToString();
 
-		Title = $"Factuur {AppState.InvoiceFields["Factuurnummer"]}" +
-			$"- {AppState.InvoiceFields["Naam"].Value}.pdf";
+		Title = $"Factuur {AppState.InvoiceFields["Factuurnummer"].Value}" +
+			$" - {AppState.InvoiceFields["Naam"].Value}.pdf";
 
-		EditingFilePath = files.Result[0].Path.AbsolutePath;
+		EditingFilePath = Path.GetFullPath(files.Result[0].Path.LocalPath);
 	}
 
 	private void SaveInvoice()
@@ -191,8 +191,8 @@ public partial class MainWindow : Window
 			stream.Write(jsonBytes, 0, jsonBytes.Length);
 		}
 
-		var pdfName = $"Factuur {AppState.InvoiceFields["Factuurnummer"]}" +
-			$"- {AppState.InvoiceFields["Naam"].Value}";
+		var pdfName = $"Factuur {AppState.InvoiceFields["Factuurnummer"].Value}" +
+			$" - {AppState.InvoiceFields["Naam"].Value}";
 
 		var pdfPath = Path.Combine(OutputDirectoryTextBox.Text ?? "", pdfName + ".pdf");
 
