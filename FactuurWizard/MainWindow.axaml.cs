@@ -65,7 +65,7 @@ public partial class MainWindow : Window
 
 	private void NewInvoice()
 	{
-		Title = "Nieuw factuur";
+		Title = "Nieuw Factuur";
 		EditingFilePath = null;
 
 		AppState.InvoiceItems.Clear();
