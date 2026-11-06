@@ -14,6 +14,8 @@ namespace FactuurWizard;
 
 public partial class MainWindow : Window
 {
+	private string? EditingFilePath;
+
 	public MainWindow()
 	{
 		InitializeComponent();
@@ -64,6 +66,8 @@ public partial class MainWindow : Window
 	private void NewInvoice()
 	{
 		Title = "Nieuw factuur";
+		EditingFilePath = null;
+
 		AppState.InvoiceItems.Clear();
 		ItemContainer.Children.Clear();
 		foreach (var field in AppState.InvoiceFields.Values)
@@ -88,9 +92,9 @@ public partial class MainWindow : Window
 		);
 
 		files.Wait();
-
 		if (files.Result.Count <= 0)
 			return;
+
 		NewInvoice();
 
 		var pdf = PdfDocument.Load(files.Result[0].Path.LocalPath);
@@ -115,7 +119,10 @@ public partial class MainWindow : Window
 			else
 				AppState.InvoiceFields[field.Name].Value = field.Value.ToString();
 
-		Title = AppState.InvoiceFields["Naam"].Value + "";
+		Title = $"Factuur {AppState.InvoiceFields["Factuurnummer"]}" +
+			$"- {AppState.InvoiceFields["Naam"].Value}.pdf";
+
+		EditingFilePath = files.Result[0].Path.AbsolutePath;
 	}
 
 	private void SaveInvoice()
@@ -184,14 +191,17 @@ public partial class MainWindow : Window
 			stream.Write(jsonBytes, 0, jsonBytes.Length);
 		}
 
-		var pdfPath = Path.Combine(
-			OutputDirectoryTextBox.Text ?? "",
-			AppState.InvoiceFields["Naam"].Value + ".pdf"
-		);
+		var pdfName = $"Factuur {AppState.InvoiceFields["Factuurnummer"]}" +
+			$"- {AppState.InvoiceFields["Naam"].Value}";
+
+		var pdfPath = Path.Combine(OutputDirectoryTextBox.Text ?? "", pdfName + ".pdf");
 
 		pdf.Save(pdfPath);
 		pdf.Close();
 		File.Delete("Assets/TempInvoice.pdf");
+
+		if (EditingFilePath is not null)
+			File.Delete(EditingFilePath);
 
 		Process.Start(new ProcessStartInfo
 		{
@@ -199,7 +209,8 @@ public partial class MainWindow : Window
 			UseShellExecute = true
 		});
 
-		Title = AppState.InvoiceFields["Naam"].Value + "";
+		Title = pdfName;
+		EditingFilePath = pdfPath;
 	}
 
 	private void OnNewInvoiceClick(object? sender, RoutedEventArgs e)

@@ -27,25 +27,31 @@
         <PackageReference Include="GemBox.Spreadsheet" Version="2026.11.102"/>
         <PackageReference Include="Velopack" Version="1.3.39-g8d2844f"/>
         <AvaloniaResource Remove="publish\**"/>
+        <AvaloniaResource Remove="Releases\**"/>
     </ItemGroup>
 
     <ItemGroup>
         <AvaloniaXaml Remove="publish\**"/>
+        <AvaloniaXaml Remove="Releases\**"/>
     </ItemGroup>
 
     <ItemGroup>
         <Compile Remove="publish\**"/>
+        <Compile Remove="Releases\**"/>
     </ItemGroup>
 
     <ItemGroup>
         <EmbeddedResource Remove="publish\**"/>
+        <EmbeddedResource Remove="Releases\**"/>
     </ItemGroup>
 
     <ItemGroup>
         <AdditionalFiles Remove="publish\**"/>
+        <AdditionalFiles Remove="Releases\**"/>
     </ItemGroup>
 
     <ItemGroup>
         <None Remove="publish\**"/>
+        <None Remove="Releases\**"/>
     </ItemGroup>
 </Project>
