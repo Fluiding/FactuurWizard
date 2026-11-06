@@ -1,5 +1,7 @@
 ﻿using System;
 using Avalonia;
+using GemBox.Pdf;
+using GemBox.Spreadsheet;
 using Velopack;
 
 namespace FactuurWizard;
@@ -13,6 +15,9 @@ internal class Program
 	public static void Main(string[] args)
 	{
 		VelopackApp.Build().Run();
+
+		ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+		SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
 
 		BuildAvaloniaApp()
 			.StartWithClassicDesktopLifetime(args);

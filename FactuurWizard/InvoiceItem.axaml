@@ -4,13 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:factuurWizard="clr-namespace:FactuurWizard"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="FactuurWizard.InvoiceItem">
+             x:Class="FactuurWizard.InvoiceItem" Name="Root">
     <Border BorderBrush="{DynamicResource OutlineBackground}" BorderThickness="1"
             CornerRadius="8" Padding="16 14" VerticalAlignment="Stretch">
         <StackPanel Spacing="12">
-            <factuurWizard:InvoiceField Label="Referentie" Independant="True" ValueChanged="OnRefernceNumberChanged" />
-            <factuurWizard:InvoiceField Label="Omschrijving" Independant="True" ValueChanged="OnDescriptionChanged" />
-            <factuurWizard:InvoiceField Label="Prijs" Independant="True" ValueChanged="OnPriceChanged" />
+            <factuurWizard:InvoiceField Label="Referentie" Independant="True"
+                                        Value="{Binding ReferenceNumber, ElementName=Root, Mode=TwoWay}" />
+            <factuurWizard:InvoiceField Label="Omschrijving" Independant="True"
+                                        Value="{Binding Description, ElementName=Root, Mode=TwoWay}" />
+            <factuurWizard:InvoiceField Label="Prijs" Independant="True"
+                                        Value="{Binding Price, ElementName=Root, Mode=TwoWay}"
+                                        ValueChanged="OnPriceChanged" />
         </StackPanel>
     </Border>
 </UserControl>

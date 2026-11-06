@@ -14,6 +14,10 @@ public partial class InvoiceField : UserControl
 
 	public event EventHandler<TextChangedEventArgs>? ValueChanged;
 
+	public static readonly StyledProperty<string> ValueProperty =
+		AvaloniaProperty.Register<InvoiceField, string>(
+			nameof(Value), "");
+
 	public string Label {
 		get => GetValue(LabelProperty);
 		set => SetValue(LabelProperty, value);
@@ -24,7 +28,10 @@ public partial class InvoiceField : UserControl
 		set => SetValue(IndependantProperty, value);
 	}
 
-	public string Value { get; set; } = "";
+	public string Value {
+		get => GetValue(ValueProperty);
+		set => SetValue(ValueProperty, value);
+	}
 
 	public InvoiceField()
 	{

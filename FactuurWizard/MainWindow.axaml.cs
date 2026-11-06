@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.Json;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using GemBox.Pdf;
+using Avalonia.Platform.Storage;
 using GemBox.Spreadsheet;
 using PdfDocument = GemBox.Pdf.PdfDocument;
 
@@ -17,8 +17,9 @@ public partial class MainWindow : Window
 	public MainWindow()
 	{
 		InitializeComponent();
+		var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+		OutputDirectoryTextBox.Text = path.Replace("\\", "/");
 	}
-
 
 	private void OnNewItemClick(object? sender, RoutedEventArgs e)
 	{
@@ -26,8 +27,7 @@ public partial class MainWindow : Window
 		if (itemCount == 8)
 			return;
 
-		var item = new InvoiceItem();
-		ItemContainer.Children.Add(item);
+		ItemContainer.Children.Add(new InvoiceItem());
 	}
 
 	private void OnRemoveItemClick(object? sender, RoutedEventArgs e)
@@ -40,21 +40,86 @@ public partial class MainWindow : Window
 		AppState.InvoiceItems.RemoveAt(itemCount - 1);
 	}
 
-	private void OnNewInvoiceClick(object? sender, RoutedEventArgs e)
+	private void OnBrowseOutputDirectoryClicked(object sender, RoutedEventArgs e)
 	{
+		var storage = GetTopLevel(this)!.StorageProvider;
+		var defaultDirectory = storage.TryGetFolderFromPathAsync(OutputDirectoryTextBox.Text!);
+		defaultDirectory.Wait();
+
+		var folders = storage.OpenFolderPickerAsync(
+			new FolderPickerOpenOptions
+			{
+				Title = "Choose output folder",
+				AllowMultiple = false,
+				SuggestedStartLocation = defaultDirectory.Result
+			});
+
+		folders.Wait();
+		if (folders.Result.Count <= 0)
+			return;
+
+		OutputDirectoryTextBox.Text = folders.Result[0].Path.AbsolutePath;
+	}
+
+	private void NewInvoice()
+	{
+		Title = "Nieuw factuur";
 		AppState.InvoiceItems.Clear();
+		ItemContainer.Children.Clear();
 		foreach (var field in AppState.InvoiceFields.Values)
 			field.Value = "";
 	}
 
-	private void OnOpenInvoiceClick(object? sender, RoutedEventArgs e)
+	private void OpenInvoice()
 	{
-		throw new NotImplementedException();
+		var files = GetTopLevel(this)!.StorageProvider.OpenFilePickerAsync(
+			new FilePickerOpenOptions
+			{
+				Title = "Select Invoice PDF",
+				AllowMultiple = false,
+				FileTypeFilter =
+				[
+					new FilePickerFileType("PDF Files")
+					{
+						Patterns = ["*.pdf"]
+					}
+				]
+			}
+		);
+
+		files.Wait();
+
+		if (files.Result.Count <= 0)
+			return;
+		NewInvoice();
+
+		var pdf = PdfDocument.Load(files.Result[0].Path.LocalPath);
+		var fileSpec = pdf.EmbeddedFiles
+			.FirstOrDefault(x => x.Key.ToString() == "data.json");
+
+		if (fileSpec.Value?.EmbeddedFile is null)
+			return;
+
+		using var stream = fileSpec.Value.EmbeddedFile.OpenRead();
+		var json = JsonSerializer.Deserialize<JsonElement>(stream);
+
+		foreach (var field in json.EnumerateObject())
+			if (field.Name == "Items")
+				foreach (var item in field.Value.EnumerateArray())
+					ItemContainer.Children.Add(new InvoiceItem
+					{
+						ReferenceNumber = item.GetProperty("ReferenceNumber").GetString() ?? "",
+						Description = item.GetProperty("Description").GetString() ?? "",
+						Price = item.GetProperty("Price").GetDecimal()
+					});
+			else
+				AppState.InvoiceFields[field.Name].Value = field.Value.ToString();
+
+		Title = AppState.InvoiceFields["Naam"].Value + "";
 	}
 
-	private void OnSaveInvoiceClick(object? sender, RoutedEventArgs e)
+	private void SaveInvoice()
 	{
-		SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
 		var workbook = ExcelFile.Load("Assets/Invoice.ods");
 		var sheet = workbook.Worksheets[0];
 
@@ -77,7 +142,7 @@ public partial class MainWindow : Window
 		sheet.Cells["F18"].Value = " " + AppState.InvoiceFields["1ste inschrijving"].Value;
 
 		var index = 0;
-		var totalPrice = 0f;
+		decimal totalPrice = 0;
 		foreach (var item in AppState.InvoiceItems)
 		{
 			sheet.Cells[$"A{23 + index}"].Value = " " + item.ReferenceNumber;
@@ -108,7 +173,6 @@ public partial class MainWindow : Window
 
 		var jsonBytes = JsonSerializer.SerializeToUtf8Bytes(invoiceData);
 
-		ComponentInfo.SetLicense("FREE-LIMITED-KEY");
 		using var pdf = PdfDocument.Load("Assets/TempInvoice.pdf");
 		var fileSpec = pdf.EmbeddedFiles.AddEmpty("data.json").Value;
 
@@ -121,7 +185,7 @@ public partial class MainWindow : Window
 		}
 
 		var pdfPath = Path.Combine(
-			SaveLocationTextBox.Text ?? "",
+			OutputDirectoryTextBox.Text ?? "",
 			AppState.InvoiceFields["Naam"].Value + ".pdf"
 		);
 
@@ -134,5 +198,22 @@ public partial class MainWindow : Window
 			FileName = pdfPath,
 			UseShellExecute = true
 		});
+
+		Title = AppState.InvoiceFields["Naam"].Value + "";
+	}
+
+	private void OnNewInvoiceClick(object? sender, RoutedEventArgs e)
+	{
+		NewInvoice();
+	}
+
+	private void OnOpenInvoiceClicked(object? sender, RoutedEventArgs e)
+	{
+		OpenInvoice();
+	}
+
+	private void OnSaveInvoiceClicked(object? sender, RoutedEventArgs e)
+	{
+		SaveInvoice();
 	}
 }

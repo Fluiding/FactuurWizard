@@ -1,12 +1,36 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 
 namespace FactuurWizard;
 
 public partial class InvoiceItem : UserControl
 {
-	public string ReferenceNumber { get; set; } = "";
-	public string Description { get; set; } = "";
-	public float Price { get; set; }
+	public static readonly StyledProperty<string> ReferenceNumberProperty =
+		AvaloniaProperty.Register<InvoiceItem, string>(
+			nameof(ReferenceNumber), "");
+
+	public static readonly StyledProperty<string> DescriptionProperty =
+		AvaloniaProperty.Register<InvoiceItem, string>(
+			nameof(Description), "");
+
+	public static readonly StyledProperty<decimal> PriceProperty =
+		AvaloniaProperty.Register<InvoiceItem, decimal>(
+			nameof(Price));
+
+	public string ReferenceNumber {
+		get => GetValue(ReferenceNumberProperty);
+		set => SetValue(ReferenceNumberProperty, value);
+	}
+
+	public string Description {
+		get => GetValue(DescriptionProperty);
+		set => SetValue(DescriptionProperty, value);
+	}
+
+	public decimal Price {
+		get => GetValue(PriceProperty);
+		set => SetValue(PriceProperty, value);
+	}
 
 	public InvoiceItem()
 	{
@@ -14,27 +38,13 @@ public partial class InvoiceItem : UserControl
 		AppState.InvoiceItems.Add(this);
 	}
 
-	private void OnRefernceNumberChanged(object? sender, TextChangedEventArgs e)
-	{
-		ReferenceNumber = (sender as InvoiceField)!.Value;
-	}
-
-	private void OnDescriptionChanged(object? sender, TextChangedEventArgs e)
-	{
-		Description = (sender as InvoiceField)!.Value;
-	}
-
 	private void OnPriceChanged(object? sender, TextChangedEventArgs e)
 	{
 		var field = (sender as InvoiceField)!;
 
-		if (!float.TryParse(field.Value, out var price) && field.Value != "")
-		{
+		if (!decimal.TryParse(field.Value, out _) && field.Value != "")
 			field.ValueTextBox.Classes.Add("Invalid");
-			return;
-		}
-
-		field.ValueTextBox.Classes.Remove("Invalid");
-		Price = price;
+		else
+			field.ValueTextBox.Classes.Remove("Invalid");
 	}
 }
