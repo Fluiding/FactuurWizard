@@ -143,9 +143,9 @@ public partial class MainWindow : Window
 		sheet.Cells["B16"].Value = " " + AppState.InvoiceFields["Model"].Value;
 		sheet.Cells["B17"].Value = " " + AppState.InvoiceFields["Chassisnummer"].Value;
 		sheet.Cells["B18"].Value = " " + AppState.InvoiceFields["Modeljaar"].Value;
-		sheet.Cells["F15"].Value = " " + AppState.InvoiceFields["Cylinderinhoud"].Value;
-		sheet.Cells["F16"].Value = " " + AppState.InvoiceFields["Vermogen (kW)"].Value;
-		sheet.Cells["F17"].Value = " " + AppState.InvoiceFields["Kilometerstand"].Value;
+		sheet.Cells["F15"].Value = " " + AppState.InvoiceFields["Cylinderinhoud"].Value + " cc";
+		sheet.Cells["F16"].Value = " " + AppState.InvoiceFields["Vermogen (kW)"].Value + " kW";
+		sheet.Cells["F17"].Value = " " + AppState.InvoiceFields["Kilometerstand"].Value + " km";
 		sheet.Cells["F18"].Value = " " + AppState.InvoiceFields["1ste inschrijving"].Value;
 
 		var index = 0;
@@ -194,13 +194,14 @@ public partial class MainWindow : Window
 		var pdfName = $"Factuur {AppState.InvoiceFields["Factuurnummer"].Value}" +
 			$" - {AppState.InvoiceFields["Naam"].Value}";
 
-		var pdfPath = Path.Combine(OutputDirectoryTextBox.Text ?? "", pdfName + ".pdf");
+		var pdfPath = Path.Combine(OutputDirectoryTextBox.Text ?? "", pdfName + ".pdf")
+			.Replace("/", "\\");
 
 		pdf.Save(pdfPath);
 		pdf.Close();
 		File.Delete("Assets/TempInvoice.pdf");
 
-		if (EditingFilePath is not null)
+		if (EditingFilePath is not null && EditingFilePath != pdfPath)
 			File.Delete(EditingFilePath);
 
 		Process.Start(new ProcessStartInfo
