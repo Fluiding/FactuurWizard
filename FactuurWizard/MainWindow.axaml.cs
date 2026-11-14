@@ -21,6 +21,7 @@ public partial class MainWindow : Window
 		InitializeComponent();
 		var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 		OutputDirectoryTextBox.Text = path.Replace("\\", "/");
+		AppState.SaveInvoiceButton = SaveInvoiceButton;
 	}
 
 	private void OnNewItemClick(object? sender, RoutedEventArgs e)
@@ -114,7 +115,7 @@ public partial class MainWindow : Window
 					{
 						ReferenceNumber = item.GetProperty("ReferenceNumber").GetString() ?? "",
 						Description = item.GetProperty("Description").GetString() ?? "",
-						Price = item.GetProperty("Price").GetDecimal()
+						Price = item.GetProperty("Price").GetString() ?? ""
 					});
 			else
 				AppState.InvoiceFields[field.Name].Value = field.Value.ToString();
@@ -152,11 +153,13 @@ public partial class MainWindow : Window
 		decimal totalPrice = 0;
 		foreach (var item in AppState.InvoiceItems)
 		{
+			var price = decimal.Parse(item.Price.Replace(",", "."));
+
 			sheet.Cells[$"A{23 + index}"].Value = " " + item.ReferenceNumber;
 			sheet.Cells[$"C{23 + index}"].Value = " " + item.Description;
-			sheet.Cells[$"F{23 + index}"].Value = " " + item.Price.ToString("C", new CultureInfo("nl-BE"));
+			sheet.Cells[$"F{23 + index}"].Value = " " + price.ToString("C", new CultureInfo("nl-BE"));
 
-			totalPrice += item.Price;
+			totalPrice += price;
 			index++;
 		}
 

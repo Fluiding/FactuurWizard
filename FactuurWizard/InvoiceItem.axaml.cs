@@ -13,9 +13,9 @@ public partial class InvoiceItem : UserControl
 		AvaloniaProperty.Register<InvoiceItem, string>(
 			nameof(Description), "");
 
-	public static readonly StyledProperty<decimal> PriceProperty =
-		AvaloniaProperty.Register<InvoiceItem, decimal>(
-			nameof(Price));
+	public static readonly StyledProperty<string> PriceProperty =
+		AvaloniaProperty.Register<InvoiceItem, string>(
+			nameof(Price), "1");
 
 	public string ReferenceNumber {
 		get => GetValue(ReferenceNumberProperty);
@@ -27,7 +27,7 @@ public partial class InvoiceItem : UserControl
 		set => SetValue(DescriptionProperty, value);
 	}
 
-	public decimal Price {
+	public string Price {
 		get => GetValue(PriceProperty);
 		set => SetValue(PriceProperty, value);
 	}
@@ -43,8 +43,14 @@ public partial class InvoiceItem : UserControl
 		var field = (sender as InvoiceField)!;
 
 		if (!decimal.TryParse(field.Value, out _) && field.Value != "")
+		{
 			field.ValueTextBox.Classes.Add("Invalid");
+			AppState.SaveInvoiceButton.IsEnabled = false;
+		}
 		else
+		{
 			field.ValueTextBox.Classes.Remove("Invalid");
+			AppState.SaveInvoiceButton.IsEnabled = true;
+		}
 	}
 }

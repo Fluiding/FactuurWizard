@@ -106,7 +106,8 @@
                 <Button Classes="Button" Grid.Column="1" HorizontalAlignment="Stretch" Click="OnOpenInvoiceClicked">
                     <TextBlock Text="Open Factuur" />
                 </Button>
-                <Button Classes="Button" Grid.Column="2" HorizontalAlignment="Stretch" Click="OnSaveInvoiceClicked">
+                <Button Classes="Button" Name="SaveInvoiceButton" Grid.Column="2"
+                        HorizontalAlignment="Stretch" Click="OnSaveInvoiceClicked">
                     <TextBlock Text="Factuur Opslaan" />
                 </Button>
             </Grid>
